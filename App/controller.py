@@ -20,6 +20,9 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from gettext import Catalog
+from msilib.schema import Control
+from ossaudiodev import control_labels
 import config as cf
 import model
 import csv
@@ -29,7 +32,32 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
+def nuevoControlador():
+    control ={ "model": None}
+    control["model"]= model.newCatalog()
+
+return Control
+
 # Inicialización del Catálogo de libros
+
+def CargarDatos(control):
+
+catalog=control["model"]
+movies, authors= loadMovies(catalog)
+
+return movies, authors
+def loadMovies(catalog):
+    """
+    Carga los libros del archivo.  Por cada libro se toman sus autores y por
+    cada uno de ellos, se crea en la lista de autores, a dicho autor y una
+    referencia al libro que se esta procesando.
+    """
+    moviesfile = cf.data_dir + 'streaming/mazon_prime_titles-utf8-small.csv'
+    input_file = csv.DictReader(open(moviesfile, encoding='utf8'))
+    for movie in input_file:
+        model.addMovie(catalog, movie)
+    return model.MovieSize(catalog), model.authorSize(catalog)
+
 
 # Funciones para la carga de datos
 

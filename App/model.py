@@ -25,6 +25,7 @@
  """
 
 
+from gettext import Catalog
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -36,7 +37,14 @@ los mismos.
 """
 
 # Construccion de modelos
+def newCatalog():
 
+Catalog={"movies":None,
+           "authors":None}
+Catalog["movies"]=lt.newList("ARRAY_LIST")
+catalog["authors"]=lt.newList("SINGLE_LINKED", cmpfunction=compareauthors)
+
+return Catalog
 # Funciones para agregar informacion al catalogo
 
 # Funciones para creacion de datos
